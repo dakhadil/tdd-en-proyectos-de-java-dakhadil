@@ -1,30 +1,61 @@
 package com.tt1.test;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class Servicio {
 
-    private Repositorio repo;
-    private IEmail emails; // interfaz
+    private IRepositorio repo;
+    private IEmail emailer;
 
-    public Servicio(Repositorio repo, IEmail email) {
+    public Servicio(IRepositorio repo, IEmail emailer) {
         this.repo = repo;
-        this.emails = email;
+        this.emailer = emailer;
     }
 
     public void crearToDo(String nombre, String descripcion, String fechaLimite) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        if (nombre == null || nombre.trim().isEmpty()) return;
+        if (fechaLimite == null || fechaLimite.trim().isEmpty()) return;
+
+        ToDo t = new ToDo(nombre, descripcion, fechaLimite);
+        repo.guardarToDo(t);
     }
 
     public void agregarEmail(String email) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        if (email == null || email.trim().isEmpty()) return;
+        if (email.indexOf('@') < 0) return;
+
+        repo.guardarEmail(email);
     }
 
     public boolean marcarFinalizada(String nombre) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        return repo.marcarCompletado(nombre);
     }
 
     public ArrayList<ToDo> listarPendientes() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        return repo.getPendientes();
+    }
+
+    // método para tests: evita depender de la fecha real del sistema
+    public ArrayList<ToDo> listarPendientesConHoy(String hoyYYYYMMDD) {
+        comprobarVencidasYAlertar(hoyYYYYMMDD);
+        return repo.getPendientes();
+    }
+
+    private void comprobarVencidasYAlertar(String hoyYYYYMMDD) {
+        ArrayList<ToDo> pendientes = repo.getPendientes();
+        Set<String> emails = repo.getEmails(); // <-- Set
+
+        for (ToDo t : pendientes) {
+            String limite = t.getFechaLimite();
+            if (limite != null && hoyYYYYMMDD != null) {
+                if (limite.compareTo(hoyYYYYMMDD) < 0) {
+                    String msg = "ALERTA: tarea vencida -> " + t.getNombre();
+                    for (String e : emails) {
+                        emailer.send(e, msg);
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,17 +1,23 @@
 package com.tt1.test;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ToDoTest {
 
-    @BeforeEach
-    void setUp() {
-    }
+    @Test
+    void gettersAndSetters_work() {
+        // Arrange
+        ToDo t = new ToDo();
+        t.setNombre("tarea1");
+        t.setDescripcion("desc");
+        t.setFechaLimite("2026-02-25");
+        t.setCompletado(false);
 
-    @AfterEach
-    void tearDown() {
+        // Act + Assert
+        assertEquals("tarea1", t.getNombre());
+        assertEquals("desc", t.getDescripcion());
+        assertEquals("2026-02-25", t.getFechaLimite());
+        assertFalse(t.isCompletado());
     }
 }

@@ -1,47 +1,52 @@
 package com.tt1.test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DBStub {
 
-    private ArrayList<ToDo> todos;
-    private ArrayList<String> emails;
+    private HashMap<String, ToDo> todos;   // clave = nombre
+    private Set<String> emails;            // evita duplicados
 
     public DBStub() {
-
-        throw new UnsupportedOperationException("Clase aún no implementada.");
-        // “Base de datos” en memoria
-        // this.todos = new ArrayList<ToDo>();
-        // this.emails = new ArrayList<String>();
+        this.todos = new HashMap<>();
+        this.emails = new HashSet<>();
     }
 
     // CRUD ToDos
     public void create(ToDo todo) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        if (todo == null || todo.getNombre() == null) return;
+        todos.put(todo.getNombre(), todo);
     }
 
     public ArrayList<ToDo> readAll() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        return new ArrayList<>(todos.values());
     }
 
     public ToDo findByName(String nombre) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        return todos.get(nombre);
     }
 
     public boolean update(ToDo todo) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        if (todo == null || todo.getNombre() == null) return false;
+        if (!todos.containsKey(todo.getNombre())) return false;
+        todos.put(todo.getNombre(), todo);
+        return true;
     }
 
     public boolean deleteByName(String nombre) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        return todos.remove(nombre) != null;
     }
 
-    // Agenda emails
+    // Emails
     public void addEmail(String email) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        if (email == null) return;
+        emails.add(email);
     }
 
-    public ArrayList<String> getEmails() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+    public Set<String> getEmails() {
+        return emails;
     }
 }

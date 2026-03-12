@@ -3,46 +3,53 @@ package com.tt1.test;
 public class ToDo {
     private String nombre;
     private String descripcion;
-    private String fechaLimite; // básico: String (YYYY-MM-DD)
+    private String fechaLimite; // YYYY-MM-DD
     private boolean completado;
 
     public ToDo() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        // JavaBean: constructor vacío
+        this.nombre = "";
+        this.descripcion = "";
+        this.fechaLimite = "";
+        this.completado = false;
     }
 
     public ToDo(String nombre, String descripcion, String fechaLimite) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.fechaLimite = fechaLimite;
+        this.completado = false;
     }
 
     public String getNombre() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        this.descripcion = descripcion;
     }
 
     public String getFechaLimite() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        return fechaLimite;
     }
 
     public void setFechaLimite(String fechaLimite) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        this.fechaLimite = fechaLimite;
     }
 
     public boolean isCompletado() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        return completado;
     }
 
     public void setCompletado(boolean completado) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        this.completado = completado;
     }
 }

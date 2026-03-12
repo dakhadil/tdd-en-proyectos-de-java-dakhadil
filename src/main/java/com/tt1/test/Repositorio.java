@@ -1,37 +1,50 @@
 package com.tt1.test;
 
 import java.util.ArrayList;
+import java.util.Set;
 
-public class Repositorio {
+public class Repositorio implements IRepositorio {
 
     private DBStub db;
 
     public Repositorio(DBStub db) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
-        //this.db = db;
+        this.db = db;
     }
 
-    public ToDo findToDo(String nombre) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
-    }
-
+    @Override
     public void guardarToDo(ToDo todo) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        db.create(todo);
     }
 
+    @Override
+    public ToDo findToDo(String nombre) {
+        return db.findByName(nombre);
+    }
+
+    @Override
     public boolean marcarCompletado(String nombre) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        ToDo t = db.findByName(nombre);
+        if (t == null) return false;
+        t.setCompletado(true);
+        return db.update(t);
     }
 
+    @Override
     public ArrayList<ToDo> getPendientes() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        ArrayList<ToDo> res = new ArrayList<>();
+        for (ToDo t : db.readAll()) {
+            if (!t.isCompletado()) res.add(t);
+        }
+        return res;
     }
 
+    @Override
     public void guardarEmail(String email) {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+        db.addEmail(email);
     }
 
-    public ArrayList<String> getEmails() {
-        throw new UnsupportedOperationException("Clase aún no implementada.");
+    @Override
+    public Set<String> getEmails() {
+        return db.getEmails();
     }
 }
